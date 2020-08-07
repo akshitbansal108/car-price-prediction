@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <title>Car Price Predictor</title>
+</head>
+
+<body>
+  <div class="container">
+    <div class="jumbotron">
+      <h2 class="display-4">Predict the Price</h2>
+      <p class="lead">Know how much to expect for your car!</p>
+    </div>
+
+    <form method="POST" action="http://127.0.0.1:5000/predict">
+      <div class="form-group">
+        <label>When did you purchase the car?</label>
+        <input type="number" class="form-control" id="first" placeholder="2020" required="required" name="Year" value="{{ request.form['Year'] }}">
+      </div>
+      <div class="form-group">
+        <label>What is the showroom price (in lacs)?</label>
+        <input type="number" step="0.01" class="form-control" id="second" placeholder="1" required="required" name="Present_Price" value="{{ request.form['Present_Price'] }}">
+      </div>
+      <div class="form-group">
+        <label>How many kms the car has run?</label>
+        <input type="number" class="form-control" id="third" placeholder="0" required="required" name="Kms_Driven" value="{{ request.form['Kms_Driven'] }}">
+      </div>
+      <div class="form-group">
+        <label>What is the fuel type of the car?</label>
+        <select class="form-control" id="fourth" required="required" name="Fuel_Type">
+          <option value="Petrol" {% if "Petrol" in fuel_type %} selected {% endif %}>Petrol</option>
+          <option value="Diesel" {% if "Diesel" in fuel_type %} selected {% endif %}>Diesel</option>
+          <option value="CNG" {% if "CNG" in fuel_type %} selected {% endif %}>CNG</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Are you a Delear or Individual?</label>
+        <select class="form-control" id="fifth" required="required" name="Seller_Type_Individual">
+          <option value="Individual" {% if "Individual" in seller_type %} selected {% endif %}>Individual</option>
+          <option value="Dealer" {% if "Dealer" in seller_type %} selected {% endif %}>Dealer</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>What is the transmission type?</label>
+        <select class="form-control" id="sixth" required="required" name="Transmission_Manual">
+          <option value="Manual" {% if "Manual" in transmission %} selected {% endif %}>Manual</option>
+          <option value="Automatic" {% if "Automatic" in transmission %} selected {% endif %}>Automatic</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>How many owners previously had the car?</label>
+        <select class="form-control" id="seventh" required="required" name="Owner">
+          <option value="0" {% if owner == 0 %} selected {% endif %}>0</option>
+          <option value="1" {% if owner == 1 %} selected {% endif %}>1</option>
+          <option value="3" {% if owner == 3 %} selected {% endif %}>3</option>
+        </select>
+      </div>
+
+      <button type="submit" class="btn btn-primary">Calculate</button>
+    </form>
+
+    <h3>{{ prediction_text }}</h3>
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+</body>
